@@ -4,6 +4,8 @@
 
 namespace AdaptiveSharedNamespace
 {
+    constexpr const char* const c_adaptiveCardsFeature = "adaptiveCards";
+
     class SemanticVersion;
     class FeatureRegistration
     {
@@ -16,7 +18,6 @@ namespace AdaptiveSharedNamespace
         std::string GetFeatureVersion(const std::string& featureName) const;
 
     private:
-        static constexpr const char* const c_adaptiveCards = "adaptiveCards";
         std::unordered_map<std::string, std::string> m_supportedFeatures;
     };
 }

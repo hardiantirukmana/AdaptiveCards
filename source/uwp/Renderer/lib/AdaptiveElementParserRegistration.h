@@ -59,6 +59,7 @@ namespace AdaptiveNamespace
     HRESULT FromJson(_In_ ABI::Windows::Data::Json::IJsonObject* jsonObject,
                      _In_ ABI::AdaptiveNamespace::IAdaptiveElementParserRegistration* elementParserRegistration,
                      _In_ ABI::AdaptiveNamespace::IAdaptiveActionParserRegistration* actionParserRegistration,
+                     _In_ ABI::AdaptiveNamespace::IAdaptiveFeatureRegistration* featureRegistration,
                      _In_ ABI::Windows::Foundation::Collections::IVector<ABI::AdaptiveNamespace::AdaptiveWarning*>* adaptiveWarnings,
                      _COM_Outptr_ TAdaptiveElementInterface** element)
     {
@@ -71,8 +72,11 @@ namespace AdaptiveNamespace
         ComPtr<AdaptiveActionParserRegistration> actionParserRegistrationImpl =
             PeekInnards<AdaptiveActionParserRegistration>(actionParserRegistration);
 
+        ComPtr<AdaptiveFeatureRegistration> featureRegistrationImpl = PeekInnards<AdaptiveFeatureRegistration>(featureRegistration);
+
         ParseContext context(elementParserRegistrationImpl->GetSharedParserRegistration(),
-                             actionParserRegistrationImpl->GetSharedParserRegistration());
+                             actionParserRegistrationImpl->GetSharedParserRegistration(),
+                             featureRegistration->GetSharedParserRegistration());
 
         std::vector<std::shared_ptr<AdaptiveCardParseWarning>> warnings;
         std::shared_ptr<TSharedModelParser> parser = std::make_shared<TSharedModelParser>();

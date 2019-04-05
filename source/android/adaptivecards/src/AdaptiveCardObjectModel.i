@@ -112,6 +112,7 @@ struct tm {
 #include "../../../shared/cpp/ObjectModel/Paragraph.h"
 #include "../../../shared/cpp/ObjectModel/RichTextBlock.h"
 #include "../../../shared/cpp/ObjectModel/TextRun.h"
+#include "../../../shared/cpp/ObjectModel/SemanticVersion.h"
 %}
 
 %shared_ptr(AdaptiveCards::BackgroundImage)
@@ -800,3 +801,4 @@ namespace Json {
 %include "../../../shared/cpp/ObjectModel/Paragraph.h"
 %include "../../../shared/cpp/ObjectModel/RichTextBlock.h"
 %include "../../../shared/cpp/ObjectModel/TextRun.h"
+%include "../../../shared/cpp/ObjectModel/SemanticVersion.h"

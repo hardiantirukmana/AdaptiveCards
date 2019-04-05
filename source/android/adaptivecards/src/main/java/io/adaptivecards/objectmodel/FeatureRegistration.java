@@ -39,8 +39,8 @@ public class FeatureRegistration {
     }
   }
 
-  public FeatureRegistration() {
-    this(AdaptiveCardObjectModelJNI.new_FeatureRegistration(), true);
+  public FeatureRegistration(String adaptiveCardsVersion) {
+    this(AdaptiveCardObjectModelJNI.new_FeatureRegistration(adaptiveCardsVersion), true);
   }
 
   public void AddFeature(String featureName, String featureVersion) {
@@ -49,6 +49,10 @@ public class FeatureRegistration {
 
   public void RemoveFeature(String featureName) {
     AdaptiveCardObjectModelJNI.FeatureRegistration_RemoveFeature(swigCPtr, this, featureName);
+  }
+
+  public SemanticVersion GetAdaptiveCardsVersion() {
+    return new SemanticVersion(AdaptiveCardObjectModelJNI.FeatureRegistration_GetAdaptiveCardsVersion(swigCPtr, this), true);
   }
 
   public String GetFeatureVersion(String featureName) {

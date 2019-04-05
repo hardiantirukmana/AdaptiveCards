@@ -7,7 +7,7 @@
 namespace AdaptiveSharedNamespace
 {
     FeatureRegistration::FeatureRegistration(const std::string& adaptiveCardsVersion) :
-        m_supportedFeatures{{c_adaptiveCards, adaptiveCardsVersion}}
+        m_supportedFeatures{{AdaptiveSharedNamespace::c_adaptiveCardsFeature, adaptiveCardsVersion}}
     {
     }
 
@@ -37,7 +37,7 @@ namespace AdaptiveSharedNamespace
 
     void FeatureRegistration::RemoveFeature(const std::string& featureName)
     {
-        if (featureName == c_adaptiveCards)
+        if (featureName == AdaptiveSharedNamespace::c_adaptiveCardsFeature)
         {
             throw AdaptiveCardParseException(ErrorStatusCode::UnsupportedParserOverride,
                                              "Removing the Adaptive Cards feature is unsupported");
@@ -48,7 +48,7 @@ namespace AdaptiveSharedNamespace
 
     SemanticVersion FeatureRegistration::GetAdaptiveCardsVersion() const
     {
-        SemanticVersion adaptiveCardsVersion{GetFeatureVersion(c_adaptiveCards)};
+        SemanticVersion adaptiveCardsVersion{GetFeatureVersion(AdaptiveSharedNamespace::c_adaptiveCardsFeature)};
         return adaptiveCardsVersion;
     }
 

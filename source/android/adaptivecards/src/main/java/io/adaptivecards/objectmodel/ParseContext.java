@@ -39,16 +39,12 @@ public class ParseContext {
     }
   }
 
-  public ParseContext() {
-    this(AdaptiveCardObjectModelJNI.new_ParseContext__SWIG_0(), true);
+  public ParseContext(String adaptiveCardsVersion) {
+    this(AdaptiveCardObjectModelJNI.new_ParseContext__SWIG_0(adaptiveCardsVersion), true);
   }
 
-  public ParseContext(ElementParserRegistration elementRegistration, ActionParserRegistration actionRegistration) {
-    this(AdaptiveCardObjectModelJNI.new_ParseContext__SWIG_1(ElementParserRegistration.getCPtr(elementRegistration), elementRegistration, ActionParserRegistration.getCPtr(actionRegistration), actionRegistration), true);
-  }
-
-  public ParseContext(ElementParserRegistration elementRegistration, ActionParserRegistration actionRegistration, FeatureRegistration featureRegistration) {
-    this(AdaptiveCardObjectModelJNI.new_ParseContext__SWIG_2(ElementParserRegistration.getCPtr(elementRegistration), elementRegistration, ActionParserRegistration.getCPtr(actionRegistration), actionRegistration, FeatureRegistration.getCPtr(featureRegistration), featureRegistration), true);
+  public ParseContext(String adaptiveCardsVersion, ElementParserRegistration elementRegistration, ActionParserRegistration actionRegistration, FeatureRegistration featureRegistration) {
+    this(AdaptiveCardObjectModelJNI.new_ParseContext__SWIG_1(adaptiveCardsVersion, ElementParserRegistration.getCPtr(elementRegistration), elementRegistration, ActionParserRegistration.getCPtr(actionRegistration), actionRegistration, FeatureRegistration.getCPtr(featureRegistration), featureRegistration), true);
   }
 
   public void setElementParserRegistration(ElementParserRegistration value) {

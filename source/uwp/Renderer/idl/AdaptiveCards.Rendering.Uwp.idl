@@ -89,6 +89,7 @@ AdaptiveNamespaceStart
 
     runtimeclass AdaptiveElementParserRegistration;
     runtimeclass AdaptiveActionParserRegistration;
+    runtimeclass AdaptiveFeatureRegistration;
     runtimeclass AdaptiveElementRendererRegistration;
     runtimeclass AdaptiveActionRendererRegistration;
     runtimeclass AdaptiveCardRenderer;
@@ -172,6 +173,7 @@ AdaptiveNamespaceStart
 
     interface IAdaptiveElementParserRegistration;
     interface IAdaptiveActionParserRegistration;
+    interface IAdaptiveFeatureRegistration;
     interface IAdaptiveElementParser;
     interface IAdaptiveActionParser;
 
@@ -733,7 +735,7 @@ AdaptiveNamespaceStart
      internal,
      activatable(InternalContract, 1)
 #endif
-    ] runtimeclass AdaptiveTextBlock 
+    ] runtimeclass AdaptiveTextBlock
     {
         [default] interface IAdaptiveTextBlock;
         interface IAdaptiveTextElement;
@@ -749,7 +751,7 @@ AdaptiveNamespaceStart
 #else
         uuid(0AC70C29-FA90-4C28-A6D1-A6EF58126085)
 #endif
-    ] 
+    ]
     interface IAdaptiveInline : IInspectable
     {
     };
@@ -764,7 +766,7 @@ AdaptiveNamespaceStart
 #else
         uuid(09BBE759-0754-441D-B808-3CE2C188D521)
 #endif
-    ] 
+    ]
     interface IAdaptiveTextRun : IInspectable requires IAdaptiveTextElement
     {
         [propget] HRESULT Highlight([out, retval] boolean * value);
@@ -782,11 +784,11 @@ AdaptiveNamespaceStart
         internal,
         activatable(InternalContract, 1)
 #endif
-    ] 
+    ]
     runtimeclass AdaptiveTextRun
-    { 
+    {
         [default] interface IAdaptiveTextRun;
-        interface IAdaptiveInline; 
+        interface IAdaptiveInline;
         interface IAdaptiveTextElement;
     };
 
@@ -800,7 +802,7 @@ AdaptiveNamespaceStart
 #else
         uuid(B462F8E9-E64F-4698-923B-0E7A9676BEEE)
 #endif
-    ] 
+    ]
     interface IAdaptiveParagraph : IInspectable
     {
         [propget] HRESULT Inlines([out, retval] Windows.Foundation.Collections.IVector<IAdaptiveInline*>** value);
@@ -814,8 +816,8 @@ AdaptiveNamespaceStart
         internal,
         activatable(InternalContract, 1)
 #endif
-    ] 
-    runtimeclass AdaptiveParagraph 
+    ]
+    runtimeclass AdaptiveParagraph
     {
         [default] interface IAdaptiveParagraph;
     };
@@ -1073,6 +1075,7 @@ AdaptiveNamespaceStart
             [in] Windows.Data.Json.JsonObject* adaptiveJson,
             [in] AdaptiveElementParserRegistration* elementRegistration,
             [in] AdaptiveActionParserRegistration* actionRegistration,
+            [in] AdaptiveFeatureRegistration* featureRegistration,
             [out, retval] AdaptiveCardParseResult** card);
 
         [overload("FromJsonString")]
@@ -1085,6 +1088,7 @@ AdaptiveNamespaceStart
             [in] HSTRING adaptiveJson,
             [in] AdaptiveElementParserRegistration* elementRegistration,
             [in] AdaptiveActionParserRegistration* actionRegistration,
+            [in] AdaptiveFeatureRegistration* featureRegistration,
             [out, retval] AdaptiveCardParseResult** card);
     };
 
@@ -3227,6 +3231,38 @@ AdaptiveNamespaceStart
 
     [
         version(NTDDI_WIN10_RS1),
+        exclusiveto(AdaptiveFeatureRegistration),
+#ifdef ADAPTIVE_CARDS_WINDOWS
+        uuid(b2a455fd-385c-45eb-89ce-007b7ed0a815),
+        contract(InternalContract, 1),
+        internal
+#else
+        uuid(5b639a4d-898a-4c63-8cfe-592437201830)
+#endif
+    ]
+    interface IAdaptiveFeatureRegistration : IInspectable
+    {
+        HRESULT Set([in] HSTRING name, [in] HSTRING version);
+        HRESULT Get([in] HSTRING name, [out, retval] HSTRING* version);
+        HRESULT Remove([in] HSTRING name);
+    };
+
+    [
+        version(NTDDI_WIN10_RS1),
+        activatable(NTDDI_WIN10_RS1),
+#ifdef ADAPTIVE_CARDS_WINDOWS
+        contract(InternalContract, 1),
+        internal,
+        activatable(InternalContract, 1)
+#endif
+    ]
+    runtimeclass AdaptiveFeatureRegistration
+    {
+        [default] interface IAdaptiveFeatureRegistration;
+    };
+
+    [
+        version(NTDDI_WIN10_RS1),
 #ifdef ADAPTIVE_CARDS_WINDOWS
         uuid(88a79c26-ded3-4b32-b57c-527fcbeff6a4),
         contract(InternalContract, 1),
@@ -3493,7 +3529,7 @@ AdaptiveNamespaceStart
      internal,
      activatable(InternalContract, 1)
 #endif
-    ] runtimeclass AdaptiveRichTextBlockRenderer 
+    ] runtimeclass AdaptiveRichTextBlockRenderer
     {
         [default] interface IAdaptiveElementRenderer;
         interface IAdaptiveElementParser;
