@@ -1075,6 +1075,13 @@ AdaptiveNamespaceStart
             [in] Windows.Data.Json.JsonObject* adaptiveJson,
             [in] AdaptiveElementParserRegistration* elementRegistration,
             [in] AdaptiveActionParserRegistration* actionRegistration,
+            [out, retval] AdaptiveCardParseResult** card);
+
+        [overload("FromJson")]
+        HRESULT FromJsonWithParserAndFeatureRegistration(
+            [in] Windows.Data.Json.JsonObject* adaptiveJson,
+            [in] AdaptiveElementParserRegistration* elementRegistration,
+            [in] AdaptiveActionParserRegistration* actionRegistration,
             [in] AdaptiveFeatureRegistration* featureRegistration,
             [out, retval] AdaptiveCardParseResult** card);
 
@@ -1085,6 +1092,13 @@ AdaptiveNamespaceStart
 
         [overload("FromJsonString")]
         HRESULT FromJsonStringWithParserRegistration(
+            [in] HSTRING adaptiveJson,
+            [in] AdaptiveElementParserRegistration* elementRegistration,
+            [in] AdaptiveActionParserRegistration* actionRegistration,
+            [out, retval] AdaptiveCardParseResult** card);
+
+        [overload("FromJsonString")]
+        HRESULT FromJsonStringWithParserAndFeatureRegistration(
             [in] HSTRING adaptiveJson,
             [in] AdaptiveElementParserRegistration* elementRegistration,
             [in] AdaptiveActionParserRegistration* actionRegistration,
@@ -3157,10 +3171,20 @@ AdaptiveNamespaceStart
     ]
     interface IAdaptiveElementParser : IInspectable
     {
+        [overload("FromJson")]
         HRESULT FromJson(
             [in] Windows.Data.Json.JsonObject* inputJson,
             [in] AdaptiveElementParserRegistration* elementParsers,
             [in] AdaptiveActionParserRegistration* actionParsers,
+            [in] Windows.Foundation.Collections.IVector<AdaptiveWarning*>* warnings,
+            [out, retval] IAdaptiveCardElement** result);
+
+        [overload("FromJson")]
+        HRESULT FromJsonWithFeatureRegistration(
+            [in] Windows.Data.Json.JsonObject* inputJson,
+            [in] AdaptiveElementParserRegistration* elementParsers,
+            [in] AdaptiveActionParserRegistration* actionParsers,
+            [in] AdaptiveFeatureRegistration* featureRegistration,
             [in] Windows.Foundation.Collections.IVector<AdaptiveWarning*>* warnings,
             [out, retval] IAdaptiveCardElement** result);
     };

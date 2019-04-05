@@ -2,7 +2,6 @@
 
 #include "AdaptiveCards.Rendering.Uwp.h"
 #include "Util.h"
-#include "AdaptiveFeatureRegistration.h"
 
 namespace AdaptiveNamespace
 {
@@ -27,7 +26,7 @@ namespace AdaptiveNamespace
         // ITypePeek method
         void* PeekAt(REFIID riid) override { return PeekHelper(riid, this); }
 
-        std::shared_ptr<FeatureRegistration> GetSharedParserRegistration();
+        std::shared_ptr<FeatureRegistration> GetSharedFeatureRegistration();
 
     private:
         std::shared_ptr<FeatureRegistration> m_sharedFeatureRegistration;

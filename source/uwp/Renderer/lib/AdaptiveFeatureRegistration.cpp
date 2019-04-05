@@ -12,14 +12,13 @@ namespace AdaptiveNamespace
 
     HRESULT AdaptiveFeatureRegistration::RuntimeClassInitialize() noexcept try
     {
-        std::shared_ptr<FeatureRegistration> sharedParserRegistration = std::make_shared<FeatureRegistration>();
+        std::shared_ptr<FeatureRegistration> sharedParserRegistration = std::make_shared<FeatureRegistration>(c_rendererVersion);
         RuntimeClassInitialize(sharedParserRegistration);
         return S_OK;
     }
     CATCH_RETURN;
 
-    HRESULT AdaptiveFeatureRegistration::RuntimeClassInitialize(
-        std::shared_ptr<AdaptiveSharedNamespace::FeatureRegistration> sharedParserRegistration) noexcept try
+    HRESULT AdaptiveFeatureRegistration::RuntimeClassInitialize(std::shared_ptr<AdaptiveSharedNamespace::FeatureRegistration> sharedParserRegistration) noexcept try
     {
         m_sharedFeatureRegistration = sharedParserRegistration;
         return S_OK;
@@ -50,7 +49,7 @@ namespace AdaptiveNamespace
     }
     CATCH_RETURN;
 
-    std::shared_ptr<FeatureRegistration> AdaptiveFeatureRegistration::GetSharedParserRegistration()
+    std::shared_ptr<FeatureRegistration> AdaptiveFeatureRegistration::GetSharedFeatureRegistration()
     {
         return m_sharedFeatureRegistration;
     }
