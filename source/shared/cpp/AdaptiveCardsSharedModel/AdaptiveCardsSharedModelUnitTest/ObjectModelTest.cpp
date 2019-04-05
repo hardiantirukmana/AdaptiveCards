@@ -26,7 +26,7 @@ namespace AdaptiveCardsSharedModelUnitTest
         // An empty JSON does not produce any selectAction
         TEST_METHOD(SelectActionEmptyJsonTest)
         {
-            ParseContext context;
+            ParseContext context{"1.2"};
 
             Json::Value json;
             std::shared_ptr<BaseActionElement> selectAction = ParseUtil::GetAction(
@@ -62,7 +62,7 @@ namespace AdaptiveCardsSharedModelUnitTest
             }";
             Json::Value json = ParseUtil::GetJsonValueFromString(cardStr);
 
-            ParseContext context;
+            ParseContext context{"1.2"};
             std::shared_ptr<BaseActionElement> selectAction = ParseUtil::GetAction(
                 context,
                 json,
@@ -88,7 +88,7 @@ namespace AdaptiveCardsSharedModelUnitTest
             }";
             Json::Value json = ParseUtil::GetJsonValueFromString(str);
 
-            ParseContext context;
+            ParseContext context{"1.2"};
             std::shared_ptr<BaseActionElement> selectAction = ParseUtil::GetAction(
                 context,
                 json,
@@ -126,7 +126,7 @@ namespace AdaptiveCardsSharedModelUnitTest
             }";
             Json::Value json = ParseUtil::GetJsonValueFromString(str);
 
-            ParseContext context;
+            ParseContext context{"1.2"};
             std::shared_ptr<BaseActionElement> selectAction = ParseUtil::GetAction(
                 context,
                 json,
@@ -153,7 +153,7 @@ namespace AdaptiveCardsSharedModelUnitTest
             }";
             Json::Value json = ParseUtil::GetJsonValueFromString(str);
 
-            ParseContext context;
+            ParseContext context{"1.2"};
             std::shared_ptr<BaseActionElement> selectAction = ParseUtil::GetAction(
                 context,
                 json,
@@ -1010,8 +1010,7 @@ namespace AdaptiveCardsSharedModelUnitTest
             auto textBlock = std::static_pointer_cast<TextBlock>(body[0]);
             auto textBlockNoRequires = std::static_pointer_cast<TextBlock>(body[1]);
 
-            ParseContext context;
-            context.featureRegistration->AddFeature("adaptiveCards", "1.2");
+            ParseContext context{"1.2"};
             context.featureRegistration->AddFeature("foobar", "2");
             Assert::IsTrue(textBlock->MeetsRequirements(context));
             Assert::IsTrue(textBlockNoRequires->MeetsRequirements(context));

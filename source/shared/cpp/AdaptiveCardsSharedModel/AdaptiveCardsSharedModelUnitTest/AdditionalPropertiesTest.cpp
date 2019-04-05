@@ -76,7 +76,7 @@ namespace AdaptiveCardsSharedModelUnitTest
                 \"MyAdditionalProperty\": \"Foo\"\
             }";
 
-            ParseContext parseContext;
+            ParseContext parseContext{"1.2"};
             auto paragraph = Paragraph::Deserialize(parseContext, ParseUtil::GetJsonValueFromString(testJsonString));
 
             Json::Value value = paragraph->GetAdditionalProperties();

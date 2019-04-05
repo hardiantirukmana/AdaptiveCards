@@ -255,10 +255,10 @@ namespace AdaptiveCardsSharedModelUnitTest
             auto actionRegistration = std::make_shared<ActionParserRegistration>();
             actionRegistration->AddParser("CustomActionWithImage", std::make_shared<TestCustomActionParser>());
 
-            auto featureRegistration = std::make_shared<FeatureRegistration>();
+            auto featureRegistration = std::make_shared<FeatureRegistration>("1.2");
             featureRegistration->AddFeature("CoolFeature", "1");
 
-            ParseContext context(elementRegistration, actionRegistration, featureRegistration);
+            ParseContext context("1.2", elementRegistration, actionRegistration, featureRegistration);
             // Parse the card and get the image uris
             auto resourceInformation = AdaptiveCard::DeserializeFromString(testJsonString, "1.0", context)->GetAdaptiveCard()->GetResourceInformation();
             ValidateResourceInformation(expectedValues, resourceInformation);

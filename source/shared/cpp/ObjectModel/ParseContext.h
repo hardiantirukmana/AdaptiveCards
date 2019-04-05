@@ -15,11 +15,10 @@ namespace AdaptiveSharedNamespace
     class ParseContext
     {
     public:
-        ParseContext();
-        ParseContext(std::shared_ptr<ElementParserRegistration> elementRegistration,
-                     std::shared_ptr<ActionParserRegistration> actionRegistration);
+        ParseContext(const std::string& adaptiveCardsVersion);
 
-        ParseContext(std::shared_ptr<ElementParserRegistration> elementRegistration,
+        ParseContext(const std::string& adaptiveCardsVersion,
+                     std::shared_ptr<ElementParserRegistration> elementRegistration,
                      std::shared_ptr<ActionParserRegistration> actionRegistration,
                      std::shared_ptr<FeatureRegistration> featureRegistration);
 

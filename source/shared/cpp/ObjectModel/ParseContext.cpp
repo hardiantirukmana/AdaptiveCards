@@ -8,21 +8,17 @@
 
 namespace AdaptiveSharedNamespace
 {
-    ParseContext::ParseContext() :
+    ParseContext::ParseContext(const std::string& adaptiveCardsVersion) :
         elementParserRegistration{std::make_shared<ElementParserRegistration>()},
-        actionParserRegistration{std::make_shared<ActionParserRegistration>()}, warnings{}, m_idStack{}, m_elementIds{},
-        m_parentalContainerStyles{}, m_previousBleedDirection{ContainerBleedDirection::BleedToBothEdges},
+        actionParserRegistration{std::make_shared<ActionParserRegistration>()},
+        featureRegistration{std::make_shared<FeatureRegistration>(adaptiveCardsVersion)}, warnings{}, m_idStack{},
+        m_elementIds{}, m_parentalContainerStyles{}, m_previousBleedDirection{ContainerBleedDirection::BleedToBothEdges},
         m_currentBleedDirection{ContainerBleedDirection::BleedToBothEdges}
     {
     }
 
-    ParseContext::ParseContext(std::shared_ptr<ElementParserRegistration> elementRegistration,
-                               std::shared_ptr<ActionParserRegistration> actionRegistration) :
-        ParseContext(elementRegistration, actionRegistration, nullptr)
-    {
-    }
-
-    ParseContext::ParseContext(std::shared_ptr<ElementParserRegistration> elementRegistration,
+    ParseContext::ParseContext(const std::string& adaptiveCardsVersion,
+                               std::shared_ptr<ElementParserRegistration> elementRegistration,
                                std::shared_ptr<ActionParserRegistration> actionRegistration,
                                std::shared_ptr<FeatureRegistration> featureRegistration) :
         warnings{},
@@ -31,7 +27,27 @@ namespace AdaptiveSharedNamespace
     {
         elementParserRegistration = (elementRegistration) ? elementRegistration : std::make_shared<ElementParserRegistration>();
         actionParserRegistration = (actionRegistration) ? actionRegistration : std::make_shared<ActionParserRegistration>();
-        featureRegistration = (featureRegistration) ? featureRegistration : std::make_shared<FeatureRegistration>();
+
+        // a little oddness... in order to support both the "bring your own" *and* the "we'll build one for you"
+        // scenarios for FeatureRegistration, we require an adaptiveCardsVersion to be passed in. if the caller supplied
+        // us with their own FeatureRegistration instance, we should double check to make sure it was built with the
+        // same version they handed us.
+        if (featureRegistration)
+        {
+            const SemanticVersion callerVersion{adaptiveCardsVersion};
+            const SemanticVersion featureRegistrationVersion = featureRegistration->GetAdaptiveCardsVersion();
+            if (callerVersion != featureRegistrationVersion)
+            {
+                std::stringstream message{};
+                message << "Version mismatch. (caller: " << static_cast<std::string>(callerVersion)
+                        << ") (featureRegistration: " << static_cast<std::string>(featureRegistrationVersion) << ")";
+                throw AdaptiveCardParseException(ErrorStatusCode::InvalidPropertyValue, message.str());
+            }
+        }
+        else
+        {
+            featureRegistration = std::make_shared<FeatureRegistration>(adaptiveCardsVersion);
+        }
     }
 
     // Detecting ID collisions

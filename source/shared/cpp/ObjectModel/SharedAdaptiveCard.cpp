@@ -85,7 +85,7 @@ std::shared_ptr<ParseResult> AdaptiveCard::DeserializeFromFile(const std::string
 std::shared_ptr<ParseResult> AdaptiveCard::DeserializeFromFile(const std::string& jsonFile, std::string rendererVersion)
 #endif // __ANDROID__
 {
-    ParseContext context;
+    ParseContext context(rendererVersion);
     return AdaptiveCard::DeserializeFromFile(jsonFile, rendererVersion, context);
 }
 
@@ -220,7 +220,7 @@ std::shared_ptr<ParseResult> AdaptiveCard::DeserializeFromString(const std::stri
 std::shared_ptr<ParseResult> AdaptiveCard::DeserializeFromString(const std::string& jsonString, std::string rendererVersion)
 #endif // __ANDROID__
 {
-    ParseContext context;
+    ParseContext context(rendererVersion);
     return AdaptiveCard::DeserializeFromString(jsonString, rendererVersion, context);
 }
 

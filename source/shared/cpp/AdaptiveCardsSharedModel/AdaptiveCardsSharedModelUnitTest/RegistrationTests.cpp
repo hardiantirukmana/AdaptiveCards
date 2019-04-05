@@ -119,7 +119,9 @@ namespace AdaptiveCardsSharedModelUnitTest
 
         TEST_METHOD(FeatureRegistrationTests)
         {
-            FeatureRegistration fr;
+            FeatureRegistration fr{"1.2"};
+            Assert::ExpectException<AdaptiveCardParseException>([&]() { fr.AddFeature("adaptiveCards"s, "2.0"s); });
+            Assert::ExpectException<AdaptiveCardParseException>([&]() { fr.RemoveFeature("adaptiveCards"s); });
             fr.AddFeature("NewFeature"s, "1.0"s);
             Assert::AreEqual("1.0"s, fr.GetFeatureVersion("NewFeature"s));
             fr.AddFeature("NewFeature"s, "1.0"s);
@@ -130,6 +132,10 @@ namespace AdaptiveCardsSharedModelUnitTest
             Assert::AreEqual(""s, fr.GetFeatureVersion("NewFeature"s));
 
             Assert::ExpectException<AdaptiveCardParseException>([&]() { fr.AddFeature("InvalidFeatureVersion"s, "not a semantic version"s); });
+
+            Assert::AreEqual("1.2"s, fr.GetFeatureVersion("adaptiveCards"));
+            const SemanticVersion oneDotTwo{"1.2"};
+            Assert::IsTrue(oneDotTwo == fr.GetAdaptiveCardsVersion());
         }
     };
 }
