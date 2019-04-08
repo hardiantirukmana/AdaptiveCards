@@ -2721,7 +2721,7 @@ namespace AdaptiveNamespace
         HRESULT hrColumns = XamlHelpers::IterateOverVector<ABI::AdaptiveNamespace::AdaptiveColumn, IAdaptiveColumn>(
             columns.Get(),
             ancestorHasFallback,
-            [xamlGrid, gridStatics, &currentColumn, renderContext, renderArgs, columnRenderer, hostConfig](IAdaptiveColumn* column) {
+            [xamlGrid, gridStatics, &currentColumn, renderContext, newRenderArgs, columnRenderer, hostConfig](IAdaptiveColumn* column) {
                 ComPtr<IAdaptiveCardElement> columnAsCardElement;
                 ComPtr<IAdaptiveColumn> localColumn(column);
                 RETURN_IF_FAILED(localColumn.As(&columnAsCardElement));
@@ -2803,14 +2803,9 @@ namespace AdaptiveNamespace
                 RETURN_IF_FAILED(columnDefinition->put_Width(columnWidth));
                 RETURN_IF_FAILED(columnDefinitions->Append(columnDefinition.Get()));
 
-                ComPtr<IAdaptiveRenderArgs> columnRenderArgs;
-                ABI::AdaptiveNamespace::ContainerStyle style;
-                RETURN_IF_FAILED(renderArgs->get_ContainerStyle(&style));
-                RETURN_IF_FAILED(MakeAndInitialize<AdaptiveRenderArgs>(&columnRenderArgs, style, columnDefinition.Get(), renderArgs));
-
                 // Build the Column
                 ComPtr<IUIElement> xamlColumn;
-                RETURN_IF_FAILED(columnRenderer->Render(columnAsCardElement.Get(), renderContext, columnRenderArgs.Get(), &xamlColumn));
+                RETURN_IF_FAILED(columnRenderer->Render(columnAsCardElement.Get(), renderContext, newRenderArgs.Get(), &xamlColumn));
 
                 // Mark the column container with the current column
                 ComPtr<IFrameworkElement> columnAsFrameworkElement;
