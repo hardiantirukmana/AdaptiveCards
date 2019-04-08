@@ -412,7 +412,7 @@ namespace AdaptiveNamespace
             ApplyBackgroundToRoot(rootAsPanel.Get(), backgroundImage.Get(), renderContext, renderArgs);
         }
 
-            ComPtr<IAdaptiveSpacingConfig> spacingConfig;
+        ComPtr<IAdaptiveSpacingConfig> spacingConfig;
         THROW_IF_FAILED(hostConfig->get_Spacing(&spacingConfig));
 
         UINT32 padding;
@@ -2630,16 +2630,16 @@ namespace AdaptiveNamespace
             ABI::AdaptiveNamespace::HeightType columnHeightType{};
             RETURN_IF_FAILED(cardElement->get_Height(&columnHeightType));
 
-            // Add columnPanel to rootElement
-            ComPtr<IFrameworkElement> columnPanelAsFElement;
-            RETURN_IF_FAILED(columnPanel.As(&columnPanelAsFElement));
-            XamlHelpers::AppendXamlElementToPanel(columnPanelAsFElement.Get(), rootAsPanel.Get(), columnHeightType);
+            // Add columnBorder to rootElement
+            ComPtr<IFrameworkElement> columnBorderAsFElement;
+            RETURN_IF_FAILED(columnBorder.As(&columnBorderAsFElement));
+            XamlHelpers::AppendXamlElementToPanel(columnBorderAsFElement.Get(), rootAsPanel.Get(), columnHeightType);
 
             RETURN_IF_FAILED(rootElement.As(&columnAsUIElement));
         }
         else
         {
-            RETURN_IF_FAILED(columnPanel.As(&columnAsUIElement));
+            RETURN_IF_FAILED(columnBorder.As(&columnAsUIElement));
         }
 
         ComPtr<IAdaptiveHostConfig> hostConfig;
@@ -2651,7 +2651,7 @@ namespace AdaptiveNamespace
         HandleSelectAction(adaptiveCardElement,
                            selectAction.Get(),
                            renderContext,
-                           columnBorderAsUIElement.Get(),
+                           columnAsUIElement.Get(),
                            SupportsInteractivity(hostConfig.Get()),
                            false,
                            ColumnControl);
